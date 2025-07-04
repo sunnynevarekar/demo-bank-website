@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Bank - Secure Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="login-body">
+    <!-- Login Header -->
+    <header class="login-header">
+        <div class="login-nav">
+            <div class="logo">
+                <h1>Premium Bank</h1>
+            </div>
+            <div class="login-help">
+                <a href="#" onclick="alert('Help Center: 1-800-PREMIUM')">Need Help?</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Login Content -->
+    <main class="login-main">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header-section">
+                    <h2>Secure Login</h2>
+                    <p>Access your Premium Bank accounts securely</p>
+                </div>
+
+                <!-- Login Form -->
+                <form id="login-form" class="login-form">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input 
+                            type="text" 
+                            id="username" 
+                            name="username" 
+                            required 
+                            autocomplete="username"
+                            placeholder="Enter your username"
+                        />
+                        <div class="field-error" id="username-error"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            required 
+                            autocomplete="current-password"
+                            placeholder="Enter your password"
+                        />
+                        <div class="field-error" id="password-error"></div>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="remember-me" name="remember">
+                            <span class="checkmark"></span>
+                            Remember me for 30 days
+                        </label>
+                        <a href="#" class="forgot-password" onclick="alert('Password reset functionality coming soon')">
+                            Forgot Password?
+                        </a>
+                    </div>
+
+                    <button type="submit" id="login-btn" class="login-button">
+                        <span class="button-text">Sign In</span>
+                        <span class="loading-spinner" id="loading-spinner" style="display: none;">
+                            <span class="spinner"></span>
+                        </span>
+                    </button>
+
+                    <div class="form-error" id="form-error" style="display: none;">
+                        <span class="error-icon">⚠️</span>
+                        <span class="error-message"></span>
+                    </div>
+                </form>
+
+                <!-- Security Information -->
+                <div class="security-info">
+                    <h3>🔒 Your Security Matters</h3>
+                    <ul>
+                        <li>Always log out when finished</li>
+                        <li>Never share your login credentials</li>
+                        <li>Use a unique, strong password</li>
+                        <li>Keep your browser updated</li>
+                    </ul>
+                </div>
+
+                <!-- Demo Credentials -->
+                <div class="demo-credentials">
+                    <h3>📝 Demo Credentials</h3>
+                    <p><strong>For testing purposes, use any of these credentials:</strong></p>
+                    <div class="demo-accounts">
+                        <div class="demo-account">
+                            <strong>User:</strong> demo_user<br>
+                            <strong>Pass:</strong> demo123
+                        </div>
+                        <div class="demo-account">
+                            <strong>User:</strong> test_user<br>
+                            <strong>Pass:</strong> test456
+                        </div>
+                        <div class="demo-account">
+                            <strong>User:</strong> sarah.johnson<br>
+                            <strong>Pass:</strong> premium789
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Login Features -->
+            <div class="login-features">
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Mobile Banking</h3>
+                    <p>Access your accounts on any device, anywhere, anytime</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>Bank-Level Security</h3>
+                    <p>256-bit encryption and advanced fraud protection</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Instant Transfers</h3>
+                    <p>Transfer money between accounts instantly</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="login-footer">
+        <div class="footer-content">
+            <p>&copy; 2024 Premium Bank. All rights reserved. | 
+               <a href="#" onclick="alert('Privacy Policy coming soon')">Privacy Policy</a> | 
+               <a href="#" onclick="alert('Terms of Service coming soon')">Terms of Service</a>
+            </p>
+            <p class="disclaimer">
+                <strong>Demo Website:</strong> This is a demonstration banking website for testing purposes only. 
+                No real financial transactions or data are processed.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Valid demo credentials
+        const validCredentials = [
+            { username: 'demo_user', password: 'demo123' },
+            { username: 'test_user', password: 'test456' },
+            { username: 'sarah.johnson', password: 'premium789' },
+            { username: 'admin', password: 'admin123' },
+            { username: 'user', password: 'password' }
+        ];
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if already logged in
+            if (localStorage.getItem('premium_bank_authenticated') === 'true') {
+                redirectToAccount();
+                return;
+            }
+
+            // Setup form submission
+            document.getElementById('login-form').addEventListener('submit', handleLogin);
+            
+            // Add input validation
+            document.getElementById('username').addEventListener('input', clearFieldError);
+            document.getElementById('password').addEventListener('input', clearFieldError);
+            
+            // Focus on username field
+            document.getElementById('username').focus();
+        });
+
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('remember-me').checked;
+            
+            // Clear previous errors
+            clearAllErrors();
+            
+            // Validate inputs
+            if (!validateInputs(username, password)) {
+                return;
+            }
+            
+            // Show loading state
+            showLoading(true);
+            
+            // Simulate authentication delay
+            setTimeout(() => {
+                authenticateUser(username, password, rememberMe);
+            }, 1500);
+        }
+
+        function validateInputs(username, password) {
+            let isValid = true;
+            
+            if (!username) {
+                showFieldError('username', 'Username is required');
+                isValid = false;
+            }
+            
+            if (!password) {
+                showFieldError('password', 'Password is required');
+                isValid = false;
+            } else if (password.length < 3) {
+                showFieldError('password', 'Password must be at least 3 characters');
+                isValid = false;
+            }
+            
+            return isValid;
+        }
+
+        function authenticateUser(username, password, rememberMe) {
+            // Check credentials
+            const validUser = validCredentials.find(cred => 
+                cred.username === username && cred.password === password
+            );
+            
+            if (validUser) {
+                // Success
+                showLoading(false);
+                showSuccess();
+                
+                // Store authentication state
+                localStorage.setItem('premium_bank_authenticated', 'true');
+                localStorage.setItem('premium_bank_username', username);
+                localStorage.setItem('premium_bank_login_time', new Date().toISOString());
+                
+                if (rememberMe) {
+                    localStorage.setItem('premium_bank_remember', 'true');
+                }
+                
+                // Redirect after brief success message
+                setTimeout(() => {
+                    redirectToAccount();
+                }, 1000);
+                
+            } else {
+                // Failed authentication
+                showLoading(false);
+                showFormError('Invalid username or password. Please try again.');
+                
+                // Clear password field
+                document.getElementById('password').value = '';
+                document.getElementById('password').focus();
+            }
+        }
+
+        function showLoading(show) {
+            const button = document.getElementById('login-btn');
+            const buttonText = button.querySelector('.button-text');
+            const spinner = document.getElementById('loading-spinner');
+            
+            if (show) {
+                button.disabled = true;
+                button.classList.add('loading');
+                buttonText.style.display = 'none';
+                spinner.style.display = 'inline-block';
+            } else {
+                button.disabled = false;
+                button.classList.remove('loading');
+                buttonText.style.display = 'inline';
+                spinner.style.display = 'none';
+            }
+        }
+
+        function showSuccess() {
+            const button = document.getElementById('login-btn');
+            const buttonText = button.querySelector('.button-text');
+            
+            button.classList.add('success');
+            buttonText.textContent = 'Login Successful!';
+        }
+
+        function showFieldError(fieldId, message) {
+            const field = document.getElementById(fieldId);
+            const errorDiv = document.getElementById(fieldId + '-error');
+            
+            field.classList.add('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function showFormError(message) {
+            const errorDiv = document.getElementById('form-error');
+            const errorMessage = errorDiv.querySelector('.error-message');
+            
+            errorMessage.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function clearFieldError(event) {
+            const field = event.target;
+            const errorDiv = document.getElementById(field.id + '-error');
+            
+            field.classList.remove('error');
+            errorDiv.style.display = 'none';
+            
+            // Also clear form error
+            document.getElementById('form-error').style.display = 'none';
+        }
+
+        function clearAllErrors() {
+            const fields = ['username', 'password'];
+            fields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                const errorDiv = document.getElementById(fieldId + '-error');
+                
+                field.classList.remove('error');
+                errorDiv.style.display = 'none';
+            });
+            
+            document.getElementById('form-error').style.display = 'none';
+        }
+
+        function redirectToAccount() {
+            // Check for redirect parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const redirect = urlParams.get('redirect');
+            
+            if (redirect) {
+                window.location.href = redirect;
+            } else {
+                window.location.href = 'account-summary.html';
+            }
+        }
+
+        // Demo credential quick-fill functionality
+        document.addEventListener('click', function(event) {
+            if (event.target.closest('.demo-account')) {
+                const demoAccount = event.target.closest('.demo-account');
+                const text = demoAccount.textContent;
+                
+                // Extract username and password
+                const userMatch = text.match(/User:\s*([^\s]+)/);
+                const passMatch = text.match(/Pass:\s*([^\s]+)/);
+                
+                if (userMatch && passMatch) {
+                    document.getElementById('username').value = userMatch[1];
+                    document.getElementById('password').value = passMatch[1];
+                    clearAllErrors();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

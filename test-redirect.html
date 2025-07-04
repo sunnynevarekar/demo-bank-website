@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Redirect</title>
+</head>
+<body>
+    <h1>Testing Redirect Flow</h1>
+    <p>Current URL: <span id="current-url"></span></p>
+    <p>Auth State: <span id="auth-state"></span></p>
+    <p>Username: <span id="username"></span></p>
+    <p>Login Time: <span id="login-time"></span></p>
+    <p>Redirect Param: <span id="redirect-param"></span></p>
+    
+    <script>
+        document.getElementById('current-url').textContent = window.location.href;
+        document.getElementById('auth-state').textContent = localStorage.getItem('premium_bank_authenticated');
+        document.getElementById('username').textContent = localStorage.getItem('premium_bank_username');
+        document.getElementById('login-time').textContent = localStorage.getItem('premium_bank_login_time');
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        document.getElementById('redirect-param').textContent = urlParams.get('redirect') || 'none';
+    </script>
+</body>
+</html>

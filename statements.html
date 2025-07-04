@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Bank - Statements</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="auth.js"></script>
+</head>
+<body>
+    <!-- Top Navigation Menu -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>Premium Bank</h1>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link">Accounts</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="account-summary.html">Account Summary</a></li>
+                        <li><a href="transactions.html">Transaction History</a></li>
+                        <li><a href="statements.html">Statements</a></li>
+                        <li><a href="#" onclick="alert('Account Details coming soon')">Account Details</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link">Transfers</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" onclick="alert('Internal Transfers coming soon')">Between My Accounts</a></li>
+                        <li><a href="#" onclick="alert('External Transfers coming soon')">To External Account</a></li>
+                        <li><a href="#" onclick="alert('Wire Transfers coming soon')">Wire Transfer</a></li>
+                        <li><a href="#" onclick="alert('Scheduled Transfers coming soon')">Scheduled Transfers</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link">Services</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" onclick="alert('Bill Pay coming soon')">Bill Pay</a></li>
+                        <li><a href="#" onclick="alert('Deposit Checks coming soon')">Mobile Deposit</a></li>
+                        <li><a href="#" onclick="alert('Cards coming soon')">Card Services</a></li>
+                        <li><a href="#" onclick="alert('Alerts coming soon')">Account Alerts</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link">Support</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" onclick="alert('Help Center coming soon')">Help Center</a></li>
+                        <li><a href="#" onclick="alert('Contact coming soon')">Contact Us</a></li>
+                        <li><a href="#" onclick="alert('Security coming soon')">Security Center</a></li>
+                        <li><a href="profile.html">My Profile</a></li>
+                        <li><a href="#" onclick="alert('FAQs coming soon')">FAQs</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="login.html" class="nav-link logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <header class="page-header">
+            <h1>Account Statements</h1>
+            <p class="welcome-message">View and download your monthly account statements</p>
+            <p class="last-login">Last login: Loading...</p>
+        </header>
+
+        <!-- Account Filter -->
+        <div class="statements-filter-section">
+            <div class="filter-group">
+                <label for="account-filter">Filter by Account:</label>
+                <select id="account-filter">
+                    <option value="all">All Accounts</option>
+                    <option value="premium_checking">Premium Checking (****7890)</option>
+                    <option value="high_yield_savings">High Yield Savings (****2341)</option>
+                    <option value="emergency_fund">Emergency Fund (****5678)</option>
+                    <option value="auto_loan">Auto Loan (****9012)</option>
+                    <option value="home_mortgage">Home Mortgage (****3456)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Statements by Account Type -->
+        <div class="statements-container" id="statements-container">
+            <!-- Statements will be populated here -->
+        </div>
+    </div>
+
+    <script>
+        // Sample statements data
+        const allStatements = [
+            // Premium Checking statements - 2025 (Current Data)
+            { account: 'premium_checking', accountName: 'Premium Checking', accountNumber: '****7890', date: '2025-07-01', period: 'June 2025', fileSize: '230 KB', format: 'PDF' },
+            { account: 'premium_checking', accountName: 'Premium Checking', accountNumber: '****7890', date: '2025-06-01', period: 'May 2025', fileSize: '188 KB', format: 'PDF' },
+            { account: 'premium_checking', accountName: 'Premium Checking', accountNumber: '****7890', date: '2025-05-01', period: 'April 2025', fileSize: '167 KB', format: 'PDF' },
+            { account: 'premium_checking', accountName: 'Premium Checking', accountNumber: '****7890', date: '2025-04-01', period: 'March 2025', fileSize: '227 KB', format: 'PDF' },
+            { account: 'premium_checking', accountName: 'Premium Checking', accountNumber: '****7890', date: '2025-03-01', period: 'February 2025', fileSize: '249 KB', format: 'PDF' },
+            { account: 'premium_checking', accountName: 'Premium Checking', accountNumber: '****7890', date: '2025-02-01', period: 'January 2025', fileSize: '166 KB', format: 'PDF' },
+            { account: 'premium_checking', accountName: 'Premium Checking', accountNumber: '****7890', date: '2025-01-01', period: 'December 2024', fileSize: '245 KB', format: 'PDF' },
+            { account: 'premium_checking', accountName: 'Premium Checking', accountNumber: '****7890', date: '2024-12-01', period: 'November 2024', fileSize: '238 KB', format: 'PDF' },
+            { account: 'premium_checking', accountName: 'Premium Checking', accountNumber: '****7890', date: '2024-11-01', period: 'October 2024', fileSize: '241 KB', format: 'PDF' },
+            { account: 'premium_checking', accountName: 'Premium Checking', accountNumber: '****7890', date: '2024-10-01', period: 'September 2024', fileSize: '239 KB', format: 'PDF' },
+            { account: 'premium_checking', accountName: 'Premium Checking', accountNumber: '****7890', date: '2024-09-01', period: 'August 2024', fileSize: '242 KB', format: 'PDF' },
+            { account: 'premium_checking', accountName: 'Premium Checking', accountNumber: '****7890', date: '2024-08-01', period: 'July 2024', fileSize: '248 KB', format: 'PDF' },
+
+            // High Yield Savings statements - 2025 (Current Data)
+            { account: 'high_yield_savings', accountName: 'High Yield Savings', accountNumber: '****2341', date: '2025-07-01', period: 'June 2025', fileSize: '231 KB', format: 'PDF' },
+            { account: 'high_yield_savings', accountName: 'High Yield Savings', accountNumber: '****2341', date: '2025-06-01', period: 'May 2025', fileSize: '179 KB', format: 'PDF' },
+            { account: 'high_yield_savings', accountName: 'High Yield Savings', accountNumber: '****2341', date: '2025-05-01', period: 'April 2025', fileSize: '247 KB', format: 'PDF' },
+            { account: 'high_yield_savings', accountName: 'High Yield Savings', accountNumber: '****2341', date: '2025-04-01', period: 'March 2025', fileSize: '187 KB', format: 'PDF' },
+            { account: 'high_yield_savings', accountName: 'High Yield Savings', accountNumber: '****2341', date: '2025-03-01', period: 'February 2025', fileSize: '145 KB', format: 'PDF' },
+            { account: 'high_yield_savings', accountName: 'High Yield Savings', accountNumber: '****2341', date: '2025-02-01', period: 'January 2025', fileSize: '238 KB', format: 'PDF' },
+            { account: 'high_yield_savings', accountName: 'High Yield Savings', accountNumber: '****2341', date: '2025-01-01', period: 'December 2024', fileSize: '156 KB', format: 'PDF' },
+            { account: 'high_yield_savings', accountName: 'High Yield Savings', accountNumber: '****2341', date: '2024-12-01', period: 'November 2024', fileSize: '154 KB', format: 'PDF' },
+            { account: 'high_yield_savings', accountName: 'High Yield Savings', accountNumber: '****2341', date: '2024-11-01', period: 'October 2024', fileSize: '152 KB', format: 'PDF' },
+            { account: 'high_yield_savings', accountName: 'High Yield Savings', accountNumber: '****2341', date: '2024-10-01', period: 'September 2024', fileSize: '151 KB', format: 'PDF' },
+            { account: 'high_yield_savings', accountName: 'High Yield Savings', accountNumber: '****2341', date: '2024-09-01', period: 'August 2024', fileSize: '149 KB', format: 'PDF' },
+            { account: 'high_yield_savings', accountName: 'High Yield Savings', accountNumber: '****2341', date: '2024-08-01', period: 'July 2024', fileSize: '147 KB', format: 'PDF' },
+
+            // Emergency Fund statements - 2025 (Current Data)
+            { account: 'emergency_fund', accountName: 'Emergency Fund', accountNumber: '****5678', date: '2025-07-01', period: 'June 2025', fileSize: '164 KB', format: 'PDF' },
+            { account: 'emergency_fund', accountName: 'Emergency Fund', accountNumber: '****5678', date: '2025-06-01', period: 'May 2025', fileSize: '154 KB', format: 'PDF' },
+            { account: 'emergency_fund', accountName: 'Emergency Fund', accountNumber: '****5678', date: '2025-05-01', period: 'April 2025', fileSize: '247 KB', format: 'PDF' },
+            { account: 'emergency_fund', accountName: 'Emergency Fund', accountNumber: '****5678', date: '2025-04-01', period: 'March 2025', fileSize: '210 KB', format: 'PDF' },
+            { account: 'emergency_fund', accountName: 'Emergency Fund', accountNumber: '****5678', date: '2025-03-01', period: 'February 2025', fileSize: '260 KB', format: 'PDF' },
+            { account: 'emergency_fund', accountName: 'Emergency Fund', accountNumber: '****5678', date: '2025-02-01', period: 'January 2025', fileSize: '222 KB', format: 'PDF' },
+            { account: 'emergency_fund', accountName: 'Emergency Fund', accountNumber: '****5678', date: '2025-01-01', period: 'December 2024', fileSize: '98 KB', format: 'PDF' },
+            { account: 'emergency_fund', accountName: 'Emergency Fund', accountNumber: '****5678', date: '2024-12-01', period: 'November 2024', fileSize: '95 KB', format: 'PDF' },
+            { account: 'emergency_fund', accountName: 'Emergency Fund', accountNumber: '****5678', date: '2024-11-01', period: 'October 2024', fileSize: '97 KB', format: 'PDF' },
+            { account: 'emergency_fund', accountName: 'Emergency Fund', accountNumber: '****5678', date: '2024-10-01', period: 'September 2024', fileSize: '93 KB', format: 'PDF' },
+
+            // Auto Loan statements - 2025 (Current Data)
+            { account: 'auto_loan', accountName: 'Auto Loan', accountNumber: '****9012', date: '2025-07-01', period: 'June 2025', fileSize: '183 KB', format: 'PDF' },
+            { account: 'auto_loan', accountName: 'Auto Loan', accountNumber: '****9012', date: '2025-06-01', period: 'May 2025', fileSize: '274 KB', format: 'PDF' },
+            { account: 'auto_loan', accountName: 'Auto Loan', accountNumber: '****9012', date: '2025-05-01', period: 'April 2025', fileSize: '228 KB', format: 'PDF' },
+            { account: 'auto_loan', accountName: 'Auto Loan', accountNumber: '****9012', date: '2025-04-01', period: 'March 2025', fileSize: '171 KB', format: 'PDF' },
+            { account: 'auto_loan', accountName: 'Auto Loan', accountNumber: '****9012', date: '2025-03-01', period: 'February 2025', fileSize: '240 KB', format: 'PDF' },
+            { account: 'auto_loan', accountName: 'Auto Loan', accountNumber: '****9012', date: '2025-02-01', period: 'January 2025', fileSize: '172 KB', format: 'PDF' },
+            { account: 'auto_loan', accountName: 'Auto Loan', accountNumber: '****9012', date: '2025-01-01', period: 'December 2024', fileSize: '187 KB', format: 'PDF' },
+            { account: 'auto_loan', accountName: 'Auto Loan', accountNumber: '****9012', date: '2024-12-01', period: 'November 2024', fileSize: '185 KB', format: 'PDF' },
+            { account: 'auto_loan', accountName: 'Auto Loan', accountNumber: '****9012', date: '2024-11-01', period: 'October 2024', fileSize: '183 KB', format: 'PDF' },
+            { account: 'auto_loan', accountName: 'Auto Loan', accountNumber: '****9012', date: '2024-10-01', period: 'September 2024', fileSize: '181 KB', format: 'PDF' },
+            { account: 'auto_loan', accountName: 'Auto Loan', accountNumber: '****9012', date: '2024-09-01', period: 'August 2024', fileSize: '179 KB', format: 'PDF' },
+            { account: 'auto_loan', accountName: 'Auto Loan', accountNumber: '****9012', date: '2024-08-01', period: 'July 2024', fileSize: '177 KB', format: 'PDF' },
+
+            // Home Mortgage statements - 2025 (Current Data)
+            { account: 'home_mortgage', accountName: 'Home Mortgage', accountNumber: '****3456', date: '2025-07-01', period: 'June 2025', fileSize: '190 KB', format: 'PDF' },
+            { account: 'home_mortgage', accountName: 'Home Mortgage', accountNumber: '****3456', date: '2025-06-01', period: 'May 2025', fileSize: '201 KB', format: 'PDF' },
+            { account: 'home_mortgage', accountName: 'Home Mortgage', accountNumber: '****3456', date: '2025-05-01', period: 'April 2025', fileSize: '181 KB', format: 'PDF' },
+            { account: 'home_mortgage', accountName: 'Home Mortgage', accountNumber: '****3456', date: '2025-04-01', period: 'March 2025', fileSize: '242 KB', format: 'PDF' },
+            { account: 'home_mortgage', accountName: 'Home Mortgage', accountNumber: '****3456', date: '2025-03-01', period: 'February 2025', fileSize: '163 KB', format: 'PDF' },
+            { account: 'home_mortgage', accountName: 'Home Mortgage', accountNumber: '****3456', date: '2025-02-01', period: 'January 2025', fileSize: '165 KB', format: 'PDF' },
+            { account: 'home_mortgage', accountName: 'Home Mortgage', accountNumber: '****3456', date: '2025-01-01', period: 'December 2024', fileSize: '223 KB', format: 'PDF' },
+            { account: 'home_mortgage', accountName: 'Home Mortgage', accountNumber: '****3456', date: '2024-12-01', period: 'November 2024', fileSize: '221 KB', format: 'PDF' },
+            { account: 'home_mortgage', accountName: 'Home Mortgage', accountNumber: '****3456', date: '2024-11-01', period: 'October 2024', fileSize: '219 KB', format: 'PDF' },
+            { account: 'home_mortgage', accountName: 'Home Mortgage', accountNumber: '****3456', date: '2024-10-01', period: 'September 2024', fileSize: '217 KB', format: 'PDF' },
+            { account: 'home_mortgage', accountName: 'Home Mortgage', accountNumber: '****3456', date: '2024-09-01', period: 'August 2024', fileSize: '215 KB', format: 'PDF' },
+            { account: 'home_mortgage', accountName: 'Home Mortgage', accountNumber: '****3456', date: '2024-08-01', period: 'July 2024', fileSize: '213 KB', format: 'PDF' }
+        ];
+
+        let filteredStatements = allStatements;
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            renderStatements();
+            
+            // Event listeners
+            document.getElementById('account-filter').addEventListener('change', filterStatements);
+            
+            // Auto-select account from URL parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const accountParam = urlParams.get('account');
+            if (accountParam) {
+                document.getElementById('account-filter').value = accountParam;
+                filterStatements();
+            }
+        });
+
+        function filterStatements() {
+            const accountFilter = document.getElementById('account-filter').value;
+            
+            if (accountFilter === 'all') {
+                filteredStatements = allStatements;
+            } else {
+                filteredStatements = allStatements.filter(statement => statement.account === accountFilter);
+            }
+            
+            renderStatements();
+        }
+
+        function renderStatements() {
+            const container = document.getElementById('statements-container');
+            container.innerHTML = '';
+            
+            if (filteredStatements.length === 0) {
+                container.innerHTML = '<div class="no-statements">No statements found for the selected account.</div>';
+                return;
+            }
+            
+            // Group statements by account type
+            const groupedStatements = groupStatementsByAccount(filteredStatements);
+            
+            // Render each account group
+            Object.keys(groupedStatements).forEach(accountType => {
+                const statements = groupedStatements[accountType];
+                const accountGroup = createAccountStatementsGroup(accountType, statements);
+                container.appendChild(accountGroup);
+            });
+        }
+
+        function groupStatementsByAccount(statements) {
+            const grouped = {};
+            statements.forEach(statement => {
+                if (!grouped[statement.account]) {
+                    grouped[statement.account] = [];
+                }
+                grouped[statement.account].push(statement);
+            });
+            
+            // Sort statements within each group by date (newest first)
+            Object.keys(grouped).forEach(account => {
+                grouped[account].sort((a, b) => new Date(b.date) - new Date(a.date));
+            });
+            
+            return grouped;
+        }
+
+        function createAccountStatementsGroup(accountType, statements) {
+            const group = document.createElement('div');
+            group.className = 'statements-group';
+            
+            const accountInfo = statements[0]; // Use first statement for account info
+            
+            group.innerHTML = `
+                <div class="statements-group-header">
+                    <h2 class="account-title">${accountInfo.accountName}</h2>
+                    <span class="account-number">${accountInfo.accountNumber}</span>
+                </div>
+                <div class="statements-list">
+                    ${statements.map(statement => createStatementItem(statement)).join('')}
+                </div>
+            `;
+            
+            return group;
+        }
+
+        function createStatementItem(statement) {
+            return `
+                <div class="statement-item">
+                    <div class="statement-info">
+                        <div class="statement-period">${statement.period}</div>
+                        <div class="statement-date">Statement Date: ${formatDate(statement.date)}</div>
+                        <div class="statement-details">
+                            <span class="file-format">${statement.format}</span>
+                            <span class="file-size">${statement.fileSize}</span>
+                        </div>
+                    </div>
+                    <div class="statement-actions">
+                        <button class="view-btn" onclick="viewStatement('${statement.account}', '${statement.period}')">
+                            <span class="action-icon">👁️</span> View
+                        </button>
+                        <button class="download-btn" onclick="downloadStatement('${statement.account}', '${statement.period}')">
+                            <span class="action-icon">📥</span> Download
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric'
+            });
+        }
+
+        function viewStatement(account, period) {
+            // Generate statement content for viewing
+            const statementContent = generateStatementContent(account, period);
+            
+            // Open in new window
+            const newWindow = window.open('', '_blank');
+            newWindow.document.write(`
+                <html>
+                    <head>
+                        <title>Premium Bank Statement - ${period}</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; margin: 20px; }
+                            h1 { color: #1e3c72; border-bottom: 2px solid #1e3c72; }
+                            .statement-header { background: #f8f9fa; padding: 15px; margin-bottom: 20px; }
+                            .transaction-table { width: 100%; border-collapse: collapse; }
+                            .transaction-table th, .transaction-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                            .transaction-table th { background: #f8f9fa; }
+                            .summary { background: #e3f2fd; padding: 15px; margin-top: 20px; }
+                        </style>
+                    </head>
+                    <body>
+                        ${statementContent}
+                    </body>
+                </html>
+            `);
+            newWindow.document.close();
+            
+            console.log('Viewing statement:', { account, period });
+        }
+
+        function downloadStatement(account, period) {
+            // Generate statement content
+            const statementContent = generateStatementContent(account, period, true);
+            const filename = `premium_bank_statement_${account}_${period.replace(/\s+/g, '_')}.txt`;
+            
+            // Create and download file
+            const blob = new Blob([statementContent], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+            
+            console.log('Downloaded statement:', { 
+                account, 
+                period, 
+                filename,
+                accountName: getAccountDisplayName(account),
+                fileSize: blob.size + ' bytes'
+            });
+        }
+
+        function generateStatementContent(account, period, isDownload = false) {
+            const accountName = getAccountDisplayName(account);
+            const statement = allStatements.find(s => s.account === account && s.period === period);
+            
+            if (!statement) {
+                return isDownload ? 'Statement not found.' : '<h1>Statement not found</h1>';
+            }
+            
+            // Generate sample transactions for this account and period
+            const periodTransactions = generateStatementTransactions(account, period);
+            
+            if (isDownload) {
+                // Text format for download
+                let content = `PREMIUM BANK - ACCOUNT STATEMENT\n`;
+                content += `${'='.repeat(50)}\n\n`;
+                content += `Account: ${accountName}\n`;
+                content += `Account Number: ${statement.accountNumber}\n`;
+                content += `Statement Period: ${period}\n`;
+                content += `Statement Date: ${formatDate(statement.date)}\n`;
+                content += `Generated: ${new Date().toLocaleString()}\n\n`;
+                
+                content += `TRANSACTION HISTORY\n`;
+                content += `${'-'.repeat(80)}\n`;
+                content += `${'Date'.padEnd(12)} ${'Description'.padEnd(35)} ${'Amount'.padStart(12)} ${'Balance'.padStart(12)}\n`;
+                content += `${'-'.repeat(80)}\n`;
+                
+                periodTransactions.forEach(t => {
+                    content += `${t.date.padEnd(12)} ${t.description.substring(0, 35).padEnd(35)} ${t.amount.toFixed(2).padStart(12)} ${t.balance.toFixed(2).padStart(12)}\n`;
+                });
+                
+                // Add summary
+                const openBalance = periodTransactions.length > 0 ? periodTransactions[0].balance - periodTransactions[0].amount : 0;
+                const closeBalance = periodTransactions.length > 0 ? periodTransactions[periodTransactions.length - 1].balance : 0;
+                const totalCredits = periodTransactions.filter(t => t.amount > 0).reduce((sum, t) => sum + t.amount, 0);
+                const totalDebits = periodTransactions.filter(t => t.amount < 0).reduce((sum, t) => sum + Math.abs(t.amount), 0);
+                
+                content += `\n${'SUMMARY'.padEnd(59)} ${'-'.repeat(20)}\n`;
+                content += `${'Opening Balance:'.padEnd(59)} ${openBalance.toFixed(2).padStart(12)}\n`;
+                content += `${'Total Credits:'.padEnd(59)} ${totalCredits.toFixed(2).padStart(12)}\n`;
+                content += `${'Total Debits:'.padEnd(59)} ${totalDebits.toFixed(2).padStart(12)}\n`;
+                content += `${'Closing Balance:'.padEnd(59)} ${closeBalance.toFixed(2).padStart(12)}\n`;
+                
+                return content;
+            } else {
+                // HTML format for viewing
+                let content = `<h1>Premium Bank Statement</h1>`;
+                content += `<div class="statement-header">`;
+                content += `<strong>Account:</strong> ${accountName}<br>`;
+                content += `<strong>Account Number:</strong> ${statement.accountNumber}<br>`;
+                content += `<strong>Statement Period:</strong> ${period}<br>`;
+                content += `<strong>Statement Date:</strong> ${formatDate(statement.date)}<br>`;
+                content += `<strong>Generated:</strong> ${new Date().toLocaleString()}`;
+                content += `</div>`;
+                
+                content += `<h2>Transaction History</h2>`;
+                content += `<table class="transaction-table">`;
+                content += `<thead><tr><th>Date</th><th>Description</th><th>Amount</th><th>Balance</th></tr></thead>`;
+                content += `<tbody>`;
+                
+                periodTransactions.forEach(t => {
+                    const amountClass = t.amount >= 0 ? 'credit' : 'debit';
+                    content += `<tr><td>${t.date}</td><td>${t.description}</td><td class="${amountClass}">${t.amount.toFixed(2)}</td><td>${t.balance.toFixed(2)}</td></tr>`;
+                });
+                
+                content += `</tbody></table>`;
+                
+                return content;
+            }
+        }
+
+        function generateStatementTransactions(account, period) {
+            // Generate realistic transactions for the statement period
+            const transactions = [];
+            const baseAmount = getAccountBaseAmount(account);
+            let currentBalance = baseAmount;
+            
+            // Generate 5-15 transactions for the period
+            const transactionCount = Math.floor(Math.random() * 11) + 5;
+            
+            for (let i = 0; i < transactionCount; i++) {
+                const transaction = {
+                    date: generateRandomDateInPeriod(period),
+                    description: generateTransactionDescription(account),
+                    amount: generateTransactionAmount(account),
+                    balance: 0
+                };
+                
+                currentBalance += transaction.amount;
+                transaction.balance = currentBalance;
+                transactions.push(transaction);
+            }
+            
+            // Sort by date
+            transactions.sort((a, b) => new Date(a.date) - new Date(b.date));
+            
+            return transactions;
+        }
+
+        function getAccountBaseAmount(account) {
+            const baseAmounts = {
+                'premium_checking': 5000,
+                'high_yield_savings': 14000,
+                'emergency_fund': 2800,
+                'auto_loan': 19000,
+                'home_mortgage': 248000
+            };
+            return baseAmounts[account] || 1000;
+        }
+
+        function generateRandomDateInPeriod(period) {
+            // Extract month and year from period (e.g., "December 2024")
+            const [month, year] = period.split(' ');
+            const monthIndex = new Date(Date.parse(month + " 1, 2012")).getMonth();
+            
+            // Generate random day in month
+            const day = Math.floor(Math.random() * 28) + 1;
+            const date = new Date(parseInt(year), monthIndex, day);
+            
+            return date.toISOString().split('T')[0];
+        }
+
+        function generateTransactionDescription(account) {
+            const descriptions = {
+                'premium_checking': [
+                    'Direct Deposit - Salary', 'ATM Withdrawal', 'Online Purchase', 'Grocery Store',
+                    'Gas Station', 'Restaurant', 'Coffee Shop', 'Electric Bill', 'Phone Bill'
+                ],
+                'high_yield_savings': [
+                    'Interest Payment', 'Transfer from Checking', 'Monthly Savings',
+                    'Bonus Deposit', 'Automatic Savings'
+                ],
+                'emergency_fund': [
+                    'Monthly Contribution', 'Emergency Withdrawal', 'Transfer from Checking',
+                    'Quarterly Deposit', 'Interest Payment'
+                ],
+                'auto_loan': [
+                    'Monthly Payment', 'Principal Payment', 'Interest Charge',
+                    'Late Fee', 'Payment Received'
+                ],
+                'home_mortgage': [
+                    'Monthly Payment', 'Principal Payment', 'Interest Charge',
+                    'Escrow Payment', 'Tax Payment', 'Insurance Payment'
+                ]
+            };
+            
+            const accountDescriptions = descriptions[account] || descriptions['premium_checking'];
+            return accountDescriptions[Math.floor(Math.random() * accountDescriptions.length)];
+        }
+
+        function generateTransactionAmount(account) {
+            const ranges = {
+                'premium_checking': { min: -500, max: 3000, creditChance: 0.3 },
+                'high_yield_savings': { min: 10, max: 2000, creditChance: 0.8 },
+                'emergency_fund': { min: -500, max: 300, creditChance: 0.7 },
+                'auto_loan': { min: -500, max: -300, creditChance: 0.1 },
+                'home_mortgage': { min: -2000, max: -1500, creditChance: 0.1 }
+            };
+            
+            const range = ranges[account] || ranges['premium_checking'];
+            const isCredit = Math.random() < range.creditChance;
+            
+            if (isCredit) {
+                return Math.random() * (range.max - range.min) + range.min;
+            } else {
+                return -(Math.random() * 200 + 50); // Random debit
+            }
+        }
+
+        function getAccountDisplayName(accountKey) {
+            const accountNames = {
+                'premium_checking': 'Premium Checking',
+                'high_yield_savings': 'High Yield Savings',
+                'emergency_fund': 'Emergency Fund',
+                'auto_loan': 'Auto Loan',
+                'home_mortgage': 'Home Mortgage'
+            };
+            return accountNames[accountKey] || accountKey;
+        }
+    </script>
+</body>
+</html>

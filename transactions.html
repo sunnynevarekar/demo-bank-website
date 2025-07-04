@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Bank - Transaction History</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="auth.js"></script>
+</head>
+<body>
+    <!-- Top Navigation Menu -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>Premium Bank</h1>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link">Accounts</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="account-summary.html">Account Summary</a></li>
+                        <li><a href="transactions.html">Transaction History</a></li>
+                        <li><a href="statements.html">Statements</a></li>
+                        <li><a href="#" onclick="alert('Account Details coming soon')">Account Details</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link">Transfers</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" onclick="alert('Internal Transfers coming soon')">Between My Accounts</a></li>
+                        <li><a href="#" onclick="alert('External Transfers coming soon')">To External Account</a></li>
+                        <li><a href="#" onclick="alert('Wire Transfers coming soon')">Wire Transfer</a></li>
+                        <li><a href="#" onclick="alert('Scheduled Transfers coming soon')">Scheduled Transfers</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link">Services</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" onclick="alert('Bill Pay coming soon')">Bill Pay</a></li>
+                        <li><a href="#" onclick="alert('Deposit Checks coming soon')">Mobile Deposit</a></li>
+                        <li><a href="#" onclick="alert('Cards coming soon')">Card Services</a></li>
+                        <li><a href="#" onclick="alert('Alerts coming soon')">Account Alerts</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link">Support</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" onclick="alert('Help Center coming soon')">Help Center</a></li>
+                        <li><a href="#" onclick="alert('Contact coming soon')">Contact Us</a></li>
+                        <li><a href="#" onclick="alert('Security coming soon')">Security Center</a></li>
+                        <li><a href="profile.html">My Profile</a></li>
+                        <li><a href="#" onclick="alert('FAQs coming soon')">FAQs</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="login.html" class="nav-link logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <header class="page-header">
+            <h1>Transaction History</h1>
+            <p class="welcome-message">View and download your transaction history</p>
+            <p class="last-login">Last login: Loading...</p>
+        </header>
+
+
+        <!-- Filters Section -->
+        <div class="filters-section">
+            <div class="filter-group">
+                <label for="account-select">Account:</label>
+                <select id="account-select">
+                    <option value="all">All Accounts</option>
+                    <option value="premium_checking">Premium Checking (****7890)</option>
+                    <option value="high_yield_savings">High Yield Savings (****2341)</option>
+                    <option value="emergency_fund">Emergency Fund (****5678)</option>
+                    <option value="auto_loan">Auto Loan (****9012)</option>
+                    <option value="home_mortgage">Home Mortgage (****3456)</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="date-from">From Date:</label>
+                <input type="date" id="date-from" value="">
+            </div>
+            
+            <div class="filter-group">
+                <label for="date-to">To Date:</label>
+                <input type="date" id="date-to" value="">
+            </div>
+            
+            <div class="filter-group filter-buttons">
+                <button id="apply-filters" class="btn-primary">Apply Filters</button>
+                <button id="clear-filters" class="btn-secondary">Clear</button>
+            </div>
+            
+            <div class="filter-group quick-filters" style="flex-direction: column; gap: 8px;">
+                <label>Quick Filters:</label>
+                <div class="quick-filter-buttons" style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <button class="btn-quick" onclick="setQuickFilter(7)" style="background: #f8f9fa; color: #1e3c72; border: 1px solid #dee2e6; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s ease;">Last 7 days</button>
+                    <button class="btn-quick" onclick="setQuickFilter(30)" style="background: #f8f9fa; color: #1e3c72; border: 1px solid #dee2e6; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s ease;">Last 30 days</button>
+                    <button class="btn-quick" onclick="setQuickFilter(90)" style="background: #f8f9fa; color: #1e3c72; border: 1px solid #dee2e6; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s ease;">Last 3 months</button>
+                    <button class="btn-quick" onclick="setQuickFilter(365)" style="background: #f8f9fa; color: #1e3c72; border: 1px solid #dee2e6; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s ease;">Last year</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Download Section -->
+        <div class="download-section" id="download-section" style="display: none;">
+            <div class="download-card">
+                <h3>Download Transactions</h3>
+                <p>Download your filtered transactions in various formats</p>
+                <div class="download-options">
+                    <button class="download-btn" onclick="downloadTransactions('csv')">
+                        <span class="download-icon">📊</span> Download CSV
+                    </button>
+                    <button class="download-btn" onclick="downloadTransactions('pdf')">
+                        <span class="download-icon">📄</span> Download PDF
+                    </button>
+                    <button class="download-btn" onclick="downloadTransactions('excel')">
+                        <span class="download-icon">📈</span> Download Excel
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transactions Table -->
+        <div class="transactions-section">
+            <div class="transactions-header">
+                <h2>Transaction History</h2>
+                <div class="results-info">
+                    <span id="results-count">Loading transactions...</span>
+                </div>
+            </div>
+            
+            <div class="transactions-table">
+                <table id="transactions-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Account</th>
+                            <th>Amount</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactions-tbody">
+                        <!-- Transactions will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="load-more-section" id="load-more-section" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+                <button id="load-more-btn" class="btn-load-more" style="margin: 0 auto; display: block; text-align: center;">Load More Transactions</button>
+                <div class="loading-indicator" id="loading-indicator" style="display: none; text-align: center; margin: 0 auto;">
+                    <span>Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample transaction data - Extensive dataset for realistic testing
+        const allTransactions = [
+            // Premium Bank transactions - 2025 (Current Data - July 2025)
+            { date: '2025-07-01', description: 'Direct Deposit - Salary', category: 'Income', account: 'premium_checking', amount: 3500.0, balance: 52580.2, type: 'credit' },
+            { date: '2025-07-01', description: 'Rent Payment', category: 'Housing', account: 'premium_checking', amount: -1200.0, balance: 51380.2, type: 'debit' },
+            { date: '2025-06-30', description: 'Online Purchase - Amazon', category: 'Shopping', account: 'premium_checking', amount: -94.57, balance: 49080.2, type: 'debit' },
+            { date: '2025-06-29', description: 'Phone Bill - Verizon', category: 'Utilities', account: 'premium_checking', amount: -94.82, balance: 46274.07, type: 'debit' },
+            { date: '2025-06-28', description: 'Movie Theater', category: 'Entertainment', account: 'premium_checking', amount: -149.52, balance: 46434.14, type: 'debit' },
+            { date: '2025-06-28', description: 'Parking Fee', category: 'Transportation', account: 'premium_checking', amount: -65.26, balance: 46368.89, type: 'debit' },
+            { date: '2025-06-15', description: 'Direct Deposit - Salary', category: 'Income', account: 'premium_checking', amount: 3500.0, balance: 51859.2, type: 'credit' },
+            { date: '2025-06-15', description: 'Interest Payment', category: 'Interest', account: 'high_yield_savings', amount: 33.87, balance: 17285.54, type: 'credit' },
+            { date: '2025-06-15', description: 'Monthly Contribution', category: 'Transfer', account: 'emergency_fund', amount: 334.02, balance: 3184.02, type: 'credit' },
+            { date: '2025-06-10', description: 'Transfer from Checking', category: 'Transfer', account: 'high_yield_savings', amount: 580.36, balance: 17251.67, type: 'credit' },
+            { date: '2025-06-01', description: 'Direct Deposit - Salary', category: 'Income', account: 'premium_checking', amount: 3500.0, balance: 45496.6, type: 'credit' },
+            { date: '2025-06-01', description: 'Rent Payment', category: 'Housing', account: 'premium_checking', amount: -1200.0, balance: 44296.6, type: 'debit' },
+            { date: '2025-05-15', description: 'Direct Deposit - Salary', category: 'Income', account: 'premium_checking', amount: 3500.0, balance: 42800.0, type: 'credit' },
+            { date: '2025-05-15', description: 'Interest Payment', category: 'Interest', account: 'high_yield_savings', amount: 32.15, balance: 16890.45, type: 'credit' },
+            { date: '2025-05-01', description: 'Rent Payment', category: 'Housing', account: 'premium_checking', amount: -1200.0, balance: 39300.0, type: 'debit' },
+            { date: '2025-04-15', description: 'Direct Deposit - Salary', category: 'Income', account: 'premium_checking', amount: 3500.0, balance: 40500.0, type: 'credit' },
+            { date: '2025-04-15', description: 'Interest Payment', category: 'Interest', account: 'high_yield_savings', amount: 31.22, balance: 16858.30, type: 'credit' },
+            { date: '2025-04-01', description: 'Rent Payment', category: 'Housing', account: 'premium_checking', amount: -1200.0, balance: 37000.0, type: 'debit' },
+            { date: '2025-03-15', description: 'Direct Deposit - Salary', category: 'Income', account: 'premium_checking', amount: 3500.0, balance: 38200.0, type: 'credit' },
+            { date: '2025-03-15', description: 'Interest Payment', category: 'Interest', account: 'high_yield_savings', amount: 30.45, balance: 16827.08, type: 'credit' },
+            { date: '2025-03-01', description: 'Rent Payment', category: 'Housing', account: 'premium_checking', amount: -1200.0, balance: 34700.0, type: 'debit' },
+            { date: '2025-02-15', description: 'Direct Deposit - Salary', category: 'Income', account: 'premium_checking', amount: 3500.0, balance: 35900.0, type: 'credit' },
+            { date: '2025-02-15', description: 'Interest Payment', category: 'Interest', account: 'high_yield_savings', amount: 29.78, balance: 16796.63, type: 'credit' },
+            { date: '2025-02-01', description: 'Rent Payment', category: 'Housing', account: 'premium_checking', amount: -1200.0, balance: 32400.0, type: 'debit' },
+            
+            // Premium Checking transactions - 2025 (January continuation)
+            { date: '2025-01-15', description: 'Direct Deposit - Salary', category: 'Income', account: 'premium_checking', amount: 3500.00, balance: 8456.23, type: 'credit' },
+            { date: '2025-01-14', description: 'ATM Withdrawal', category: 'Cash', account: 'premium_checking', amount: -200.00, balance: 4956.23, type: 'debit' },
+            { date: '2025-01-13', description: 'Online Purchase - Amazon', category: 'Shopping', account: 'premium_checking', amount: -85.47, balance: 5156.23, type: 'debit' },
+            { date: '2025-01-12', description: 'Grocery Store - Whole Foods', category: 'Food', account: 'premium_checking', amount: -124.56, balance: 5241.70, type: 'debit' },
+            { date: '2025-01-11', description: 'Gas Station - Shell', category: 'Transportation', account: 'premium_checking', amount: -45.23, balance: 5366.26, type: 'debit' },
+            { date: '2025-01-10', description: 'Restaurant - Italian Bistro', category: 'Food', account: 'premium_checking', amount: -67.89, balance: 5411.49, type: 'debit' },
+            { date: '2025-01-09', description: 'Electric Bill - PG&E', category: 'Utilities', account: 'premium_checking', amount: -89.34, balance: 5479.38, type: 'debit' },
+            { date: '2025-01-08', description: 'Coffee Shop - Starbucks', category: 'Food', account: 'premium_checking', amount: -12.75, balance: 5568.72, type: 'debit' },
+            { date: '2025-01-07', description: 'Transfer to Savings', category: 'Transfer', account: 'premium_checking', amount: -500.00, balance: 5581.47, type: 'debit' },
+            { date: '2025-01-06', description: 'Freelance Payment', category: 'Income', account: 'premium_checking', amount: 1200.00, balance: 6081.47, type: 'credit' },
+            { date: '2025-01-05', description: 'Netflix Subscription', category: 'Entertainment', account: 'premium_checking', amount: -15.99, balance: 4881.47, type: 'debit' },
+            { date: '2025-01-04', description: 'Uber Ride', category: 'Transportation', account: 'premium_checking', amount: -18.50, balance: 4897.46, type: 'debit' },
+            { date: '2025-01-03', description: 'Pharmacy - CVS', category: 'Healthcare', account: 'premium_checking', amount: -32.87, balance: 4915.96, type: 'debit' },
+            { date: '2025-01-02', description: 'Online Purchase - Best Buy', category: 'Shopping', account: 'premium_checking', amount: -299.99, balance: 4948.83, type: 'debit' },
+            { date: '2025-01-01', description: 'New Year Bonus', category: 'Income', account: 'premium_checking', amount: 500.00, balance: 5248.82, type: 'credit' },
+            
+            // Premium Checking transactions - December 2024
+            { date: '2024-12-30', description: 'Direct Deposit - Salary', category: 'Income', account: 'premium_checking', amount: 3500.00, balance: 4748.82, type: 'credit' },
+            { date: '2024-12-29', description: 'Holiday Shopping - Target', category: 'Shopping', account: 'premium_checking', amount: -156.78, balance: 1248.82, type: 'debit' },
+            { date: '2024-12-28', description: 'Gas Station - Chevron', category: 'Transportation', account: 'premium_checking', amount: -52.30, balance: 1405.60, type: 'debit' },
+            { date: '2024-12-27', description: 'Restaurant - Holiday Dinner', category: 'Food', account: 'premium_checking', amount: -89.45, balance: 1457.90, type: 'debit' },
+            { date: '2024-12-26', description: 'ATM Withdrawal', category: 'Cash', account: 'premium_checking', amount: -100.00, balance: 1547.35, type: 'debit' },
+            { date: '2024-12-25', description: 'Gift Purchase - Apple Store', category: 'Shopping', account: 'premium_checking', amount: -799.00, balance: 1647.35, type: 'debit' },
+            { date: '2024-12-24', description: 'Grocery Store - Safeway', category: 'Food', account: 'premium_checking', amount: -87.23, balance: 2446.35, type: 'debit' },
+            { date: '2024-12-23', description: 'Water Bill', category: 'Utilities', account: 'premium_checking', amount: -45.67, balance: 2533.58, type: 'debit' },
+            { date: '2024-12-22', description: 'Movie Theater', category: 'Entertainment', account: 'premium_checking', amount: -28.50, balance: 2579.25, type: 'debit' },
+            { date: '2024-12-21', description: 'Phone Bill - Verizon', category: 'Utilities', account: 'premium_checking', amount: -85.00, balance: 2607.75, type: 'debit' },
+            { date: '2024-12-20', description: 'Online Purchase - eBay', category: 'Shopping', account: 'premium_checking', amount: -42.99, balance: 2692.75, type: 'debit' },
+            { date: '2024-12-19', description: 'Coffee Shop - Local Cafe', category: 'Food', account: 'premium_checking', amount: -8.75, balance: 2735.74, type: 'debit' },
+            { date: '2024-12-18', description: 'Gym Membership', category: 'Health', account: 'premium_checking', amount: -39.99, balance: 2744.49, type: 'debit' },
+            { date: '2024-12-17', description: 'Book Store', category: 'Education', account: 'premium_checking', amount: -25.50, balance: 2784.48, type: 'debit' },
+            { date: '2024-12-16', description: 'Parking Fee', category: 'Transportation', account: 'premium_checking', amount: -15.00, balance: 2809.98, type: 'debit' },
+            { date: '2024-12-15', description: 'Direct Deposit - Salary', category: 'Income', account: 'premium_checking', amount: 3500.00, balance: 2824.98, type: 'credit' },
+            
+            // Premium Checking transactions - November 2024
+            { date: '2024-11-30', description: 'Rent Payment', category: 'Housing', account: 'premium_checking', amount: -1200.00, balance: -675.02, type: 'debit' },
+            { date: '2024-11-29', description: 'Grocery Store - Trader Joes', category: 'Food', account: 'premium_checking', amount: -67.89, balance: 524.98, type: 'debit' },
+            { date: '2024-11-28', description: 'Gas Station - 76', category: 'Transportation', account: 'premium_checking', amount: -38.45, balance: 592.87, type: 'debit' },
+            { date: '2024-11-27', description: 'Online Purchase - Walmart', category: 'Shopping', account: 'premium_checking', amount: -78.23, balance: 631.32, type: 'debit' },
+            { date: '2024-11-26', description: 'Restaurant - Thanksgiving', category: 'Food', account: 'premium_checking', amount: -125.67, balance: 709.55, type: 'debit' },
+            { date: '2024-11-25', description: 'Black Friday Shopping', category: 'Shopping', account: 'premium_checking', amount: -245.99, balance: 835.22, type: 'debit' },
+            { date: '2024-11-24', description: 'Uber Eats', category: 'Food', account: 'premium_checking', amount: -22.45, balance: 1081.21, type: 'debit' },
+            { date: '2024-11-23', description: 'ATM Withdrawal', category: 'Cash', account: 'premium_checking', amount: -80.00, balance: 1103.66, type: 'debit' },
+            { date: '2024-11-22', description: 'Internet Bill - Comcast', category: 'Utilities', account: 'premium_checking', amount: -79.99, balance: 1183.66, type: 'debit' },
+            { date: '2024-11-21', description: 'Coffee Shop - Peets', category: 'Food', account: 'premium_checking', amount: -6.50, balance: 1263.65, type: 'debit' },
+            { date: '2024-11-20', description: 'Direct Deposit - Bonus', category: 'Income', account: 'premium_checking', amount: 800.00, balance: 1270.15, type: 'credit' },
+            { date: '2024-11-15', description: 'Direct Deposit - Salary', category: 'Income', account: 'premium_checking', amount: 3500.00, balance: 470.15, type: 'credit' },
+            
+            // High Yield Savings transactions - Extended
+            { date: '2025-01-15', description: 'Interest Payment', category: 'Interest', account: 'high_yield_savings', amount: 25.67, balance: 15250.67, type: 'credit' },
+            { date: '2025-01-07', description: 'Transfer from Checking', category: 'Transfer', account: 'high_yield_savings', amount: 500.00, balance: 15225.00, type: 'credit' },
+            { date: '2025-01-01', description: 'Monthly Savings Goal', category: 'Savings', account: 'high_yield_savings', amount: 1000.00, balance: 14725.00, type: 'credit' },
+            { date: '2024-12-28', description: 'Year-end Bonus Deposit', category: 'Income', account: 'high_yield_savings', amount: 2000.00, balance: 13725.00, type: 'credit' },
+            { date: '2024-12-15', description: 'Interest Payment', category: 'Interest', account: 'high_yield_savings', amount: 23.45, balance: 11725.00, type: 'credit' },
+            { date: '2024-12-01', description: 'Monthly Savings Goal', category: 'Savings', account: 'high_yield_savings', amount: 1000.00, balance: 11701.55, type: 'credit' },
+            { date: '2024-11-15', description: 'Interest Payment', category: 'Interest', account: 'high_yield_savings', amount: 22.89, balance: 10701.55, type: 'credit' },
+            { date: '2024-11-05', description: 'Transfer from Checking', category: 'Transfer', account: 'high_yield_savings', amount: 750.00, balance: 10678.66, type: 'credit' },
+            { date: '2024-11-01', description: 'Monthly Savings Goal', category: 'Savings', account: 'high_yield_savings', amount: 1000.00, balance: 9928.66, type: 'credit' },
+            { date: '2024-10-20', description: 'Emergency Fund Transfer', category: 'Transfer', account: 'high_yield_savings', amount: -200.00, balance: 8928.66, type: 'debit' },
+            { date: '2024-10-15', description: 'Interest Payment', category: 'Interest', account: 'high_yield_savings', amount: 21.33, balance: 9128.66, type: 'credit' },
+            { date: '2024-10-01', description: 'Monthly Savings Goal', category: 'Savings', account: 'high_yield_savings', amount: 1000.00, balance: 9107.33, type: 'credit' },
+            { date: '2024-09-25', description: 'Vacation Fund Transfer', category: 'Transfer', account: 'high_yield_savings', amount: -500.00, balance: 8107.33, type: 'debit' },
+            { date: '2024-09-15', description: 'Interest Payment', category: 'Interest', account: 'high_yield_savings', amount: 20.78, balance: 8607.33, type: 'credit' },
+            { date: '2024-09-01', description: 'Monthly Savings Goal', category: 'Savings', account: 'high_yield_savings', amount: 1000.00, balance: 8586.55, type: 'credit' },
+            { date: '2024-08-15', description: 'Interest Payment', category: 'Interest', account: 'high_yield_savings', amount: 19.45, balance: 7586.55, type: 'credit' },
+            { date: '2024-08-01', description: 'Monthly Savings Goal', category: 'Savings', account: 'high_yield_savings', amount: 1000.00, balance: 7567.10, type: 'credit' },
+            
+            // Emergency Fund transactions - Extended
+            { date: '2025-01-01', description: 'New Year Contribution', category: 'Savings', account: 'emergency_fund', amount: 200.00, balance: 3000.00, type: 'credit' },
+            { date: '2024-12-01', description: 'Monthly Contribution', category: 'Savings', account: 'emergency_fund', amount: 300.00, balance: 2800.00, type: 'credit' },
+            { date: '2024-11-15', description: 'Emergency Car Repair', category: 'Emergency', account: 'emergency_fund', amount: -150.00, balance: 2500.00, type: 'debit' },
+            { date: '2024-11-01', description: 'Monthly Contribution', category: 'Savings', account: 'emergency_fund', amount: 300.00, balance: 2650.00, type: 'credit' },
+            { date: '2024-10-01', description: 'Monthly Contribution', category: 'Savings', account: 'emergency_fund', amount: 300.00, balance: 2350.00, type: 'credit' },
+            { date: '2024-09-20', description: 'Medical Emergency', category: 'Emergency', account: 'emergency_fund', amount: -250.00, balance: 2050.00, type: 'debit' },
+            { date: '2024-09-01', description: 'Monthly Contribution', category: 'Savings', account: 'emergency_fund', amount: 300.00, balance: 2300.00, type: 'credit' },
+            { date: '2024-08-15', description: 'Transfer from Savings', category: 'Transfer', account: 'emergency_fund', amount: 200.00, balance: 2000.00, type: 'credit' },
+            { date: '2024-08-01', description: 'Monthly Contribution', category: 'Savings', account: 'emergency_fund', amount: 300.00, balance: 1800.00, type: 'credit' },
+            
+            // Auto Loan transactions - Extended
+            { date: '2025-01-15', description: 'Monthly Payment', category: 'Loan Payment', account: 'auto_loan', amount: -425.67, balance: 18567.43, type: 'debit' },
+            { date: '2024-12-15', description: 'Monthly Payment', category: 'Loan Payment', account: 'auto_loan', amount: -425.67, balance: 18993.10, type: 'debit' },
+            { date: '2024-11-15', description: 'Monthly Payment', category: 'Loan Payment', account: 'auto_loan', amount: -425.67, balance: 19418.77, type: 'debit' },
+            { date: '2024-10-15', description: 'Monthly Payment', category: 'Loan Payment', account: 'auto_loan', amount: -425.67, balance: 19844.44, type: 'debit' },
+            { date: '2024-09-15', description: 'Monthly Payment', category: 'Loan Payment', account: 'auto_loan', amount: -425.67, balance: 20270.11, type: 'debit' },
+            { date: '2024-08-15', description: 'Monthly Payment', category: 'Loan Payment', account: 'auto_loan', amount: -425.67, balance: 20695.78, type: 'debit' },
+            { date: '2024-08-10', description: 'Late Fee', category: 'Fee', account: 'auto_loan', amount: -25.00, balance: 21121.45, type: 'debit' },
+            { date: '2024-08-01', description: 'Extra Principal Payment', category: 'Loan Payment', account: 'auto_loan', amount: -200.00, balance: 21146.45, type: 'debit' },
+            
+            // Home Mortgage transactions - Extended
+            { date: '2025-01-01', description: 'Monthly Payment', category: 'Mortgage Payment', account: 'home_mortgage', amount: -1856.23, balance: 245890.12, type: 'debit' },
+            { date: '2024-12-01', description: 'Monthly Payment', category: 'Mortgage Payment', account: 'home_mortgage', amount: -1856.23, balance: 247746.35, type: 'debit' },
+            { date: '2024-11-15', description: 'Property Tax Escrow', category: 'Tax', account: 'home_mortgage', amount: -450.00, balance: 249602.58, type: 'debit' },
+            { date: '2024-11-01', description: 'Monthly Payment', category: 'Mortgage Payment', account: 'home_mortgage', amount: -1856.23, balance: 250052.58, type: 'debit' },
+            { date: '2024-10-01', description: 'Monthly Payment', category: 'Mortgage Payment', account: 'home_mortgage', amount: -1856.23, balance: 251908.81, type: 'debit' },
+            { date: '2024-09-15', description: 'Insurance Escrow', category: 'Insurance', account: 'home_mortgage', amount: -120.00, balance: 253765.04, type: 'debit' },
+            { date: '2024-09-01', description: 'Monthly Payment', category: 'Mortgage Payment', account: 'home_mortgage', amount: -1856.23, balance: 253885.04, type: 'debit' },
+            { date: '2024-08-15', description: 'Extra Principal Payment', category: 'Mortgage Payment', account: 'home_mortgage', amount: -1000.00, balance: 255741.27, type: 'debit' },
+            { date: '2024-08-01', description: 'Monthly Payment', category: 'Mortgage Payment', account: 'home_mortgage', amount: -1856.23, balance: 256741.27, type: 'debit' }
+        ];
+
+        // State management
+        let currentPage = 1;
+        let currentTransactions = [];
+        let filteredTransactions = [];
+        const transactionsPerPage = 10;
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait for auth to complete before initializing
+            setTimeout(() => {
+                initializeTransactionsPage();
+            }, 500); // Increased timeout to ensure auth completes
+        });
+
+        function initializeTransactionsPage() {
+            setDefaultDates();
+            
+            // Initialize with all transactions
+            filteredTransactions = [...allTransactions];
+            
+            // Event listeners
+            document.getElementById('apply-filters').addEventListener('click', applyFilters);
+            document.getElementById('clear-filters').addEventListener('click', clearFilters);
+            document.getElementById('load-more-btn').addEventListener('click', loadMoreTransactions);
+            
+            // Auto-select account from URL parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const accountParam = urlParams.get('account');
+            if (accountParam && accountParam !== 'undefined') {
+                document.getElementById('account-select').value = accountParam;
+            }
+            
+            // Apply filters to show initial data
+            applyFilters();
+        }
+
+        function setDefaultDates() {
+            // Set default to last 30 days from current date
+            const today = new Date();
+            const thirtyDaysAgo = new Date(today);
+            thirtyDaysAgo.setDate(today.getDate() - 30);
+            
+            const dateFrom = thirtyDaysAgo.toISOString().split('T')[0];
+            const dateTo = today.toISOString().split('T')[0];
+            
+            document.getElementById('date-from').value = dateFrom;
+            document.getElementById('date-to').value = dateTo;
+        }
+
+        function applyFilters() {
+            const accountFilter = document.getElementById('account-select').value;
+            const dateFrom = document.getElementById('date-from').value;
+            const dateTo = document.getElementById('date-to').value;
+            
+            // Filter transactions
+            filteredTransactions = allTransactions.filter(transaction => {
+                // Account filter
+                if (accountFilter !== 'all' && transaction.account !== accountFilter) {
+                    return false;
+                }
+                
+                // Date filter
+                if (dateFrom && transaction.date < dateFrom) {
+                    return false;
+                }
+                if (dateTo && transaction.date > dateTo) {
+                    return false;
+                }
+                
+                return true;
+            });
+            
+            // Sort by date descending
+            filteredTransactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            // Reset pagination
+            currentPage = 1;
+            loadTransactions();
+            
+            // Show download section if there are results
+            const downloadSection = document.getElementById('download-section');
+            if (filteredTransactions.length > 0) {
+                downloadSection.style.display = 'block';
+            } else {
+                downloadSection.style.display = 'none';
+            }
+        }
+
+        function clearFilters() {
+            document.getElementById('account-select').value = 'all';
+            document.getElementById('date-from').value = '';
+            document.getElementById('date-to').value = '';
+            
+            setDefaultDates();
+            applyFilters();
+        }
+
+        function loadTransactions() {
+            const startIndex = 0;
+            const endIndex = currentPage * transactionsPerPage;
+            currentTransactions = filteredTransactions.slice(startIndex, endIndex);
+            
+            renderTransactions();
+            updateResultsInfo();
+            updateLoadMoreButton();
+        }
+
+        function loadMoreTransactions() {
+            const loadingIndicator = document.getElementById('loading-indicator');
+            const loadMoreBtn = document.getElementById('load-more-btn');
+            
+            loadingIndicator.style.display = 'block';
+            loadMoreBtn.style.display = 'none';
+            
+            // Simulate loading delay
+            setTimeout(() => {
+                currentPage++;
+                loadTransactions();
+                
+                loadingIndicator.style.display = 'none';
+                loadMoreBtn.style.display = 'block';
+            }, 1000);
+        }
+
+        function renderTransactions() {
+            const tbody = document.getElementById('transactions-tbody');
+            tbody.innerHTML = '';
+            
+            if (currentTransactions.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="no-transactions">No transactions found for the selected criteria.</td></tr>';
+                return;
+            }
+            
+            currentTransactions.forEach(transaction => {
+                const row = document.createElement('tr');
+                row.className = 'transaction-row';
+                
+                const accountName = getAccountDisplayName(transaction.account);
+                const amountClass = transaction.type === 'credit' ? 'amount-credit' : 'amount-debit';
+                const amountDisplay = transaction.type === 'credit' ? 
+                    `+$${transaction.amount.toFixed(2)}` : 
+                    `-$${Math.abs(transaction.amount).toFixed(2)}`;
+                
+                row.innerHTML = `
+                    <td class="transaction-date">${formatDate(transaction.date)}</td>
+                    <td class="transaction-description">${transaction.description}</td>
+                    <td class="transaction-category">${transaction.category}</td>
+                    <td class="transaction-account">${accountName}</td>
+                    <td class="transaction-amount ${amountClass}">${amountDisplay}</td>
+                    <td class="transaction-balance">$${transaction.balance.toFixed(2)}</td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+        }
+
+        function getAccountDisplayName(accountKey) {
+            const accountNames = {
+                'premium_checking': 'Premium Checking',
+                'high_yield_savings': 'High Yield Savings',
+                'emergency_fund': 'Emergency Fund',
+                'auto_loan': 'Auto Loan',
+                'home_mortgage': 'Home Mortgage'
+            };
+            return accountNames[accountKey] || accountKey;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            });
+        }
+
+        function updateResultsInfo() {
+            const resultsCount = document.getElementById('results-count');
+            const total = filteredTransactions.length;
+            const showing = Math.min(currentTransactions.length, total);
+            
+            if (total === 0) {
+                resultsCount.textContent = 'No transactions found';
+            } else {
+                resultsCount.textContent = `Showing ${showing} of ${total} transactions`;
+            }
+        }
+
+        function updateLoadMoreButton() {
+            const loadMoreSection = document.getElementById('load-more-section');
+            const hasMore = currentTransactions.length < filteredTransactions.length;
+            
+            if (hasMore && filteredTransactions.length > 0) {
+                loadMoreSection.style.display = 'block';
+            } else {
+                loadMoreSection.style.display = 'none';
+            }
+        }
+
+        function downloadTransactions(format) {
+            if (filteredTransactions.length === 0) {
+                alert('No transactions to download. Please apply filters first.');
+                return;
+            }
+            
+            // Generate filename
+            const accountFilter = document.getElementById('account-select').value;
+            const dateFrom = document.getElementById('date-from').value;
+            const dateTo = document.getElementById('date-to').value;
+            
+            let filename = `premium_bank_transactions_${accountFilter}_${dateFrom}_to_${dateTo}.${format}`;
+            
+            // Generate file content based on format
+            let fileContent, mimeType;
+            
+            switch (format.toLowerCase()) {
+                case 'csv':
+                    fileContent = generateCSV(filteredTransactions);
+                    mimeType = 'text/csv';
+                    break;
+                case 'excel':
+                    fileContent = generateCSV(filteredTransactions); // Excel can open CSV
+                    mimeType = 'application/vnd.ms-excel';
+                    filename = filename.replace('.excel', '.csv');
+                    break;
+                case 'pdf':
+                    fileContent = generatePDFContent(filteredTransactions);
+                    mimeType = 'text/plain'; // Simplified for demo
+                    filename = filename.replace('.pdf', '.txt');
+                    break;
+                default:
+                    fileContent = JSON.stringify(filteredTransactions, null, 2);
+                    mimeType = 'application/json';
+            }
+            
+            // Create and download file
+            const blob = new Blob([fileContent], { type: mimeType });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+            
+            // Show success message
+            console.log('Download completed:', {
+                format: format,
+                filename: filename,
+                transactionCount: filteredTransactions.length,
+                fileSize: blob.size + ' bytes'
+            });
+        }
+
+        function generateCSV(transactions) {
+            const headers = ['Date', 'Description', 'Category', 'Account', 'Amount', 'Balance', 'Type'];
+            const csvContent = [
+                headers.join(','),
+                ...transactions.map(t => [
+                    t.date,
+                    `"${t.description}"`,
+                    t.category,
+                    getAccountDisplayName(t.account),
+                    t.amount,
+                    t.balance,
+                    t.type
+                ].join(','))
+            ].join('\n');
+            
+            return csvContent;
+        }
+
+        function setQuickFilter(days) {
+            const today = new Date();
+            const pastDate = new Date(today);
+            pastDate.setDate(today.getDate() - days);
+            
+            document.getElementById('date-from').value = pastDate.toISOString().split('T')[0];
+            document.getElementById('date-to').value = today.toISOString().split('T')[0];
+            
+            // Auto-apply filters
+            applyFilters();
+        }
+
+        // Add hover effects to quick filter buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            const quickButtons = document.querySelectorAll('.btn-quick');
+            quickButtons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.background = 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)';
+                    this.style.color = 'white';
+                    this.style.transform = 'translateY(-1px)';
+                    this.style.boxShadow = '0 2px 8px rgba(42, 82, 152, 0.2)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.background = '#f8f9fa';
+                    this.style.color = '#1e3c72';
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = 'none';
+                });
+            });
+        });
+
+        function generatePDFContent(transactions) {
+            const accountFilter = document.getElementById('account-select').value;
+            const dateFrom = document.getElementById('date-from').value;
+            const dateTo = document.getElementById('date-to').value;
+            
+            let content = `PREMIUM BANK - TRANSACTION REPORT\n`;
+            content += `Generated: ${new Date().toLocaleString()}\n`;
+            content += `Account: ${accountFilter === 'all' ? 'All Accounts' : getAccountDisplayName(accountFilter)}\n`;
+            content += `Period: ${dateFrom} to ${dateTo}\n`;
+            content += `Total Transactions: ${transactions.length}\n\n`;
+            content += `${'Date'.padEnd(12)} ${'Description'.padEnd(30)} ${'Category'.padEnd(15)} ${'Amount'.padStart(12)} ${'Balance'.padStart(12)}\n`;
+            content += `${'-'.repeat(12)} ${'-'.repeat(30)} ${'-'.repeat(15)} ${'-'.repeat(12)} ${'-'.repeat(12)}\n`;
+            
+            transactions.forEach(t => {
+                content += `${t.date.padEnd(12)} ${t.description.substring(0, 30).padEnd(30)} ${t.category.padEnd(15)} ${t.amount.toFixed(2).padStart(12)} ${t.balance.toFixed(2).padStart(12)}\n`;
+            });
+            
+            // Summary
+            const totalCredits = transactions.filter(t => t.type === 'credit').reduce((sum, t) => sum + t.amount, 0);
+            const totalDebits = transactions.filter(t => t.type === 'debit').reduce((sum, t) => sum + Math.abs(t.amount), 0);
+            
+            content += `\n${'SUMMARY'.padEnd(59)} ${'-'.repeat(25)}\n`;
+            content += `${'Total Credits:'.padEnd(59)} ${totalCredits.toFixed(2).padStart(12)}\n`;
+            content += `${'Total Debits:'.padEnd(59)} ${totalDebits.toFixed(2).padStart(12)}\n`;
+            content += `${'Net Amount:'.padEnd(59)} ${(totalCredits - totalDebits).toFixed(2).padStart(12)}\n`;
+            
+            return content;
+        }
+
+    </script>
+</body>
+</html>

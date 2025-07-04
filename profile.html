@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Bank - My Profile</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="auth.js"></script>
+</head>
+<body>
+    <!-- Top Navigation Menu -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>Premium Bank</h1>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link">Accounts</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="account-summary.html">Account Summary</a></li>
+                        <li><a href="transactions.html">Transaction History</a></li>
+                        <li><a href="statements.html">Statements</a></li>
+                        <li><a href="#" onclick="alert('Account Details coming soon')">Account Details</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link">Transfers</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" onclick="alert('Internal Transfers coming soon')">Between My Accounts</a></li>
+                        <li><a href="#" onclick="alert('External Transfers coming soon')">To External Account</a></li>
+                        <li><a href="#" onclick="alert('Wire Transfers coming soon')">Wire Transfer</a></li>
+                        <li><a href="#" onclick="alert('Scheduled Transfers coming soon')">Scheduled Transfers</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link">Services</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" onclick="alert('Bill Pay coming soon')">Bill Pay</a></li>
+                        <li><a href="#" onclick="alert('Deposit Checks coming soon')">Mobile Deposit</a></li>
+                        <li><a href="#" onclick="alert('Cards coming soon')">Card Services</a></li>
+                        <li><a href="#" onclick="alert('Alerts coming soon')">Account Alerts</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link">Support</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" onclick="alert('Help Center coming soon')">Help Center</a></li>
+                        <li><a href="#" onclick="alert('Contact coming soon')">Contact Us</a></li>
+                        <li><a href="#" onclick="alert('Security coming soon')">Security Center</a></li>
+                        <li><a href="profile.html">My Profile</a></li>
+                        <li><a href="#" onclick="alert('FAQs coming soon')">FAQs</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="login.html" class="nav-link logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <header class="page-header">
+            <h1>My Profile</h1>
+            <p class="welcome-message">Manage your personal information and preferences</p>
+            <p class="last-login">Last login: Loading...</p>
+        </header>
+
+        <!-- Profile Sections -->
+        <div class="profile-container">
+            <!-- Personal Information -->
+            <div class="profile-section">
+                <div class="section-header">
+                    <h2 class="section-title">Personal Information</h2>
+                    <button class="btn-edit" onclick="editPersonalInfo()">Edit</button>
+                </div>
+                <div class="profile-card">
+                    <div class="profile-row">
+                        <div class="profile-field">
+                            <label>Full Name</label>
+                            <span id="full-name">Loading...</span>
+                        </div>
+                        <div class="profile-field">
+                            <label>Date of Birth</label>
+                            <span id="date-of-birth">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="profile-row">
+                        <div class="profile-field">
+                            <label>Social Security Number</label>
+                            <span id="ssn">***-**-****</span>
+                        </div>
+                        <div class="profile-field">
+                            <label>Customer ID</label>
+                            <span id="customer-id">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="profile-row">
+                        <div class="profile-field">
+                            <label>Phone Number</label>
+                            <span id="phone-number">Loading...</span>
+                        </div>
+                        <div class="profile-field">
+                            <label>Email Address</label>
+                            <span id="email-address">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Address Information -->
+            <div class="profile-section">
+                <div class="section-header">
+                    <h2 class="section-title">Address Information</h2>
+                    <button class="btn-edit" onclick="editAddress()">Edit</button>
+                </div>
+                <div class="profile-card">
+                    <div class="profile-row">
+                        <div class="profile-field full-width">
+                            <label>Primary Address</label>
+                            <span id="primary-address">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="profile-row">
+                        <div class="profile-field">
+                            <label>City</label>
+                            <span id="city">Loading...</span>
+                        </div>
+                        <div class="profile-field">
+                            <label>State</label>
+                            <span id="state">Loading...</span>
+                        </div>
+                        <div class="profile-field">
+                            <label>ZIP Code</label>
+                            <span id="zip-code">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Settings -->
+            <div class="profile-section">
+                <div class="section-header">
+                    <h2 class="section-title">Security Settings</h2>
+                    <span class="security-status verified">✓ Verified</span>
+                </div>
+                <div class="profile-card">
+                    <div class="security-item">
+                        <div class="security-info">
+                            <h3>Password</h3>
+                            <p>Last changed: <span id="password-last-changed">Loading...</span></p>
+                        </div>
+                        <button class="btn-secondary" onclick="changePassword()">Change Password</button>
+                    </div>
+                    <div class="security-item">
+                        <div class="security-info">
+                            <h3>Two-Factor Authentication</h3>
+                            <p>Status: <span class="security-enabled">Enabled</span></p>
+                        </div>
+                        <button class="btn-secondary" onclick="manageTwoFactor()">Manage</button>
+                    </div>
+                    <div class="security-item">
+                        <div class="security-info">
+                            <h3>Security Questions</h3>
+                            <p>Last updated: <span id="security-questions-date">Loading...</span></p>
+                        </div>
+                        <button class="btn-secondary" onclick="updateSecurityQuestions()">Update</button>
+                    </div>
+                    <div class="security-item">
+                        <div class="security-info">
+                            <h3>Login Alerts</h3>
+                            <p>Email notifications for account access</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="login-alerts" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Communication Preferences -->
+            <div class="profile-section">
+                <div class="section-header">
+                    <h2 class="section-title">Communication Preferences</h2>
+                </div>
+                <div class="profile-card">
+                    <div class="preference-item">
+                        <div class="preference-info">
+                            <h3>Account Statements</h3>
+                            <p>How would you like to receive your statements?</p>
+                        </div>
+                        <div class="preference-options">
+                            <label class="radio-option">
+                                <input type="radio" name="statements" value="electronic" checked>
+                                <span>Electronic (Email)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="statements" value="paper">
+                                <span>Paper Mail</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="preference-item">
+                        <div class="preference-info">
+                            <h3>Marketing Communications</h3>
+                            <p>Receive updates about new products and services</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="marketing-emails" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="preference-item">
+                        <div class="preference-info">
+                            <h3>SMS Notifications</h3>
+                            <p>Transaction alerts and account notifications</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="sms-notifications" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Settings -->
+            <div class="profile-section">
+                <div class="section-header">
+                    <h2 class="section-title">Account Settings</h2>
+                </div>
+                <div class="profile-card">
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>Account Nickname Preferences</h3>
+                            <p>Customize how your accounts are displayed</p>
+                        </div>
+                        <button class="btn-secondary" onclick="manageNicknames()">Manage Nicknames</button>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>Transaction Limits</h3>
+                            <p>Daily and monthly transaction limits</p>
+                        </div>
+                        <button class="btn-secondary" onclick="viewLimits()">View Limits</button>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>Overdraft Protection</h3>
+                            <p>Status: <span class="protection-enabled">Enabled</span></p>
+                        </div>
+                        <button class="btn-secondary" onclick="manageOverdraft()">Manage</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Session Information -->
+            <div class="profile-section">
+                <div class="section-header">
+                    <h2 class="section-title">Session Information</h2>
+                </div>
+                <div class="profile-card">
+                    <div class="session-item">
+                        <div class="session-info">
+                            <h3>Current Session</h3>
+                            <p>Logged in from: <span id="current-session-ip">192.168.1.100</span></p>
+                            <p>Session started: <span id="session-start-time">Loading...</span></p>
+                        </div>
+                        <div class="session-duration">
+                            <span id="session-duration">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="session-item">
+                        <div class="session-info">
+                            <h3>Recent Logins</h3>
+                            <div id="recent-logins">
+                                <div class="login-entry">
+                                    <span class="login-date">Today, 2:15 PM</span>
+                                    <span class="login-location">San Francisco, CA</span>
+                                    <span class="login-device">Chrome on Windows</span>
+                                </div>
+                                <div class="login-entry">
+                                    <span class="login-date">Yesterday, 8:30 AM</span>
+                                    <span class="login-location">San Francisco, CA</span>
+                                    <span class="login-device">Safari on iPhone</span>
+                                </div>
+                                <div class="login-entry">
+                                    <span class="login-date">Jan 13, 6:45 PM</span>
+                                    <span class="login-location">San Francisco, CA</span>
+                                    <span class="login-device">Chrome on Windows</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="profile-section">
+                <div class="section-header">
+                    <h2 class="section-title">Quick Actions</h2>
+                </div>
+                <div class="quick-actions">
+                    <button class="action-btn" onclick="downloadProfile()">
+                        <span class="action-icon">📄</span>
+                        <span>Download Profile Info</span>
+                    </button>
+                    <button class="action-btn" onclick="printProfile()">
+                        <span class="action-icon">🖨️</span>
+                        <span>Print Profile</span>
+                    </button>
+                    <button class="action-btn" onclick="exportData()">
+                        <span class="action-icon">📊</span>
+                        <span>Export Account Data</span>
+                    </button>
+                    <button class="action-btn danger" onclick="closeAccount()">
+                        <span class="action-icon">⚠️</span>
+                        <span>Close Account</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // User profile data based on login
+        const userProfiles = {
+            'demo_user': {
+                fullName: 'Demo User',
+                dateOfBirth: 'January 15, 1990',
+                customerId: 'CU-DU-001234',
+                phone: '(555) 123-4567',
+                email: 'demo.user@email.com',
+                address: '123 Demo Street',
+                city: 'San Francisco',
+                state: 'CA',
+                zipCode: '94102'
+            },
+            'test_user': {
+                fullName: 'Test User',
+                dateOfBirth: 'March 22, 1985',
+                customerId: 'CU-TU-005678',
+                phone: '(555) 987-6543',
+                email: 'test.user@email.com',
+                address: '456 Test Avenue',
+                city: 'San Jose',
+                state: 'CA',
+                zipCode: '95110'
+            },
+            'sarah.johnson': {
+                fullName: 'Sarah Johnson',
+                dateOfBirth: 'July 8, 1988',
+                customerId: 'CU-SJ-009876',
+                phone: '(555) 456-7890',
+                email: 'sarah.johnson@email.com',
+                address: '789 Johnson Boulevard',
+                city: 'Palo Alto',
+                state: 'CA',
+                zipCode: '94301'
+            },
+            'admin': {
+                fullName: 'Administrator',
+                dateOfBirth: 'December 1, 1980',
+                customerId: 'CU-AD-000001',
+                phone: '(555) 000-0001',
+                email: 'admin@premiumbank.com',
+                address: '1 Premium Bank Plaza',
+                city: 'San Francisco',
+                state: 'CA',
+                zipCode: '94105'
+            },
+            'user': {
+                fullName: 'Bank User',
+                dateOfBirth: 'May 10, 1992',
+                customerId: 'CU-BU-111111',
+                phone: '(555) 111-1111',
+                email: 'user@email.com',
+                address: '111 Bank Street',
+                city: 'Oakland',
+                state: 'CA',
+                zipCode: '94612'
+            }
+        };
+
+        // Initialize profile page
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                initializeProfile();
+            }, 500);
+        });
+
+        function initializeProfile() {
+            const authUser = window.premiumBankAuth ? window.premiumBankAuth.username : 'user';
+            const profile = userProfiles[authUser] || userProfiles['user'];
+            
+            // Populate personal information
+            document.getElementById('full-name').textContent = profile.fullName;
+            document.getElementById('date-of-birth').textContent = profile.dateOfBirth;
+            document.getElementById('customer-id').textContent = profile.customerId;
+            document.getElementById('phone-number').textContent = profile.phone;
+            document.getElementById('email-address').textContent = profile.email;
+            
+            // Populate address
+            document.getElementById('primary-address').textContent = profile.address;
+            document.getElementById('city').textContent = profile.city;
+            document.getElementById('state').textContent = profile.state;
+            document.getElementById('zip-code').textContent = profile.zipCode;
+            
+            // Set security dates
+            const today = new Date();
+            const lastMonth = new Date(today);
+            lastMonth.setMonth(today.getMonth() - 1);
+            const twoMonthsAgo = new Date(today);
+            twoMonthsAgo.setMonth(today.getMonth() - 2);
+            
+            document.getElementById('password-last-changed').textContent = lastMonth.toLocaleDateString();
+            document.getElementById('security-questions-date').textContent = twoMonthsAgo.toLocaleDateString();
+            
+            // Set session information
+            if (window.premiumBankAuth && window.premiumBankAuth.loginTime) {
+                document.getElementById('session-start-time').textContent = window.premiumBankAuth.loginTime.toLocaleString();
+                updateSessionDuration();
+                setInterval(updateSessionDuration, 60000); // Update every minute
+            }
+        }
+
+        function updateSessionDuration() {
+            if (window.premiumBankAuth && window.premiumBankAuth.loginTime) {
+                const now = new Date();
+                const loginTime = window.premiumBankAuth.loginTime;
+                const duration = Math.floor((now - loginTime) / (1000 * 60)); // minutes
+                
+                let durationText;
+                if (duration < 60) {
+                    durationText = `${duration} minutes`;
+                } else {
+                    const hours = Math.floor(duration / 60);
+                    const mins = duration % 60;
+                    durationText = `${hours}h ${mins}m`;
+                }
+                
+                document.getElementById('session-duration').textContent = durationText;
+            }
+        }
+
+        // Profile management functions
+        function editPersonalInfo() {
+            alert('Personal information editing would open a secure form with identity verification requirements.');
+        }
+
+        function editAddress() {
+            alert('Address change would require verification and may affect account services.');
+        }
+
+        function changePassword() {
+            alert('Password change would open a secure form requiring current password and two-factor authentication.');
+        }
+
+        function manageTwoFactor() {
+            alert('Two-factor authentication management would show current methods and allow adding/removing devices.');
+        }
+
+        function updateSecurityQuestions() {
+            alert('Security questions update would require current password and identity verification.');
+        }
+
+        function manageNicknames() {
+            alert('Account nickname management would show all accounts with editable display names.');
+        }
+
+        function viewLimits() {
+            alert('Transaction limits would show daily/monthly limits for transfers, withdrawals, and purchases.');
+        }
+
+        function manageOverdraft() {
+            alert('Overdraft protection management would show current settings and coverage options.');
+        }
+
+        function downloadProfile() {
+            const authUser = window.premiumBankAuth ? window.premiumBankAuth.username : 'user';
+            const profile = userProfiles[authUser] || userProfiles['user'];
+            
+            const profileData = `PREMIUM BANK - PROFILE SUMMARY
+${'='.repeat(50)}
+
+PERSONAL INFORMATION
+Name: ${profile.fullName}
+Date of Birth: ${profile.dateOfBirth}
+Customer ID: ${profile.customerId}
+Phone: ${profile.phone}
+Email: ${profile.email}
+
+ADDRESS INFORMATION
+Address: ${profile.address}
+City: ${profile.city}
+State: ${profile.state}
+ZIP Code: ${profile.zipCode}
+
+SECURITY STATUS
+Two-Factor Authentication: Enabled
+Login Alerts: Enabled
+Last Password Change: ${document.getElementById('password-last-changed').textContent}
+
+COMMUNICATION PREFERENCES
+Statements: Electronic
+Marketing: Enabled
+SMS Notifications: Enabled
+
+Generated: ${new Date().toLocaleString()}
+`;
+
+            const blob = new Blob([profileData], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `premium_bank_profile_${authUser}.txt`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+        }
+
+        function printProfile() {
+            window.print();
+        }
+
+        function exportData() {
+            alert('Data export would generate a comprehensive report including account history, transactions, and statements.');
+        }
+
+        function closeAccount() {
+            const confirmed = confirm('Account closure is irreversible and requires speaking with a customer service representative. Would you like to be connected?');
+            if (confirmed) {
+                alert('You would be transferred to our account closure department. Call 1-800-PREMIUM for immediate assistance.');
+            }
+        }
+    </script>
+</body>
+</html>
