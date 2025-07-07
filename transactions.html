@@ -132,7 +132,7 @@
             <div class="transactions-header">
                 <h2>Transaction History</h2>
                 <div class="results-info">
-                    <span id="results-count">Loading transactions...</span>
+                    <span id="results-count">Loading...</span>
                 </div>
             </div>
             
@@ -154,8 +154,8 @@
                 </table>
             </div>
             
-            <div class="load-more-section" id="load-more-section" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
-                <button id="load-more-btn" class="btn-load-more" style="margin: 0 auto; display: block; text-align: center;">Load More Transactions</button>
+            <div class="load-more-section" id="load-more-section" style="display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+                <button id="load-more-btn" class="btn-load-more" style="margin: 0 auto; text-align: center; display: none;">Load More Transactions</button>
                 <div class="loading-indicator" id="loading-indicator" style="display: none; text-align: center; margin: 0 auto;">
                     <span>Loading...</span>
                 </div>
@@ -413,7 +413,11 @@
                 loadTransactions();
                 
                 loadingIndicator.style.display = 'none';
-                loadMoreBtn.style.display = 'block';
+                // Only show load more button if there are still more pages
+                const totalShown = currentPage * transactionsPerPage;
+                if (totalShown < filteredTransactions.length) {
+                    loadMoreBtn.style.display = 'block';
+                }
             }, 1000);
         }
 
@@ -483,12 +487,23 @@
 
         function updateLoadMoreButton() {
             const loadMoreSection = document.getElementById('load-more-section');
-            const hasMore = currentTransactions.length < filteredTransactions.length;
+            const loadMoreBtn = document.getElementById('load-more-btn');
+            const totalShown = currentPage * transactionsPerPage;
+            const hasMore = totalShown < filteredTransactions.length;
             
             if (hasMore && filteredTransactions.length > 0) {
-                loadMoreSection.style.display = 'block';
+                loadMoreSection.style.display = 'flex';
+                loadMoreSection.style.visibility = 'visible';
+                loadMoreSection.style.height = 'auto';
+                loadMoreBtn.style.display = 'block';
+                loadMoreBtn.style.visibility = 'visible';
             } else {
                 loadMoreSection.style.display = 'none';
+                loadMoreSection.style.visibility = 'hidden';
+                loadMoreSection.style.height = '0px';
+                loadMoreBtn.style.display = 'none';
+                loadMoreBtn.style.visibility = 'hidden';
+                console.log('Force hiding load more section');
             }
         }
 
