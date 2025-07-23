@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Bank - Account Summary</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="auth.js"></script>
+</head>
+<body>
+    <!-- Top Navigation Menu -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>Premium Bank</h1>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link">Accounts</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="account-summary.html">Account Summary</a></li>
+                        <li><a href="transactions.html">Transaction History</a></li>
+                        <li><a href="statements.html">Statements</a></li>
+                        <li><a href="#" onclick="alert('Account Details coming soon')">Account Details</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link">Transfers</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" onclick="alert('Internal Transfers coming soon')">Between My Accounts</a></li>
+                        <li><a href="#" onclick="alert('External Transfers coming soon')">To External Account</a></li>
+                        <li><a href="#" onclick="alert('Wire Transfers coming soon')">Wire Transfer</a></li>
+                        <li><a href="#" onclick="alert('Scheduled Transfers coming soon')">Scheduled Transfers</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link">Services</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" onclick="alert('Bill Pay coming soon')">Bill Pay</a></li>
+                        <li><a href="#" onclick="alert('Deposit Checks coming soon')">Mobile Deposit</a></li>
+                        <li><a href="#" onclick="alert('Cards coming soon')">Card Services</a></li>
+                        <li><a href="#" onclick="alert('Alerts coming soon')">Account Alerts</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link">Support</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" onclick="alert('Help Center coming soon')">Help Center</a></li>
+                        <li><a href="#" onclick="alert('Contact coming soon')">Contact Us</a></li>
+                        <li><a href="#" onclick="alert('Security coming soon')">Security Center</a></li>
+                        <li><a href="profile.html">My Profile</a></li>
+                        <li><a href="#" onclick="alert('FAQs coming soon')">FAQs</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="login.html" class="nav-link logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <header class="page-header">
+            <h1>My Accounts</h1>
+            <p class="welcome-message">Welcome back, User</p>
+            <p class="last-login">Last login: Loading...</p>
+        </header>
+
+        <!-- Banking Portfolio Container -->
+        <div class="banking-portfolio">
+            
+            <!-- Checking Products Section -->
+            <section class="product-category">
+                <h2 class="category-header">Checking</h2>
+                <div class="product-cards-grid">
+                    <div class="financial-card checking-product">
+                        <div class="card-top">
+                            <div class="product-details">
+                                <h3 class="product-title">Premium Checking</h3>
+                                <p class="bank-account-id">Account ****7890</p>
+                            </div>
+                            <div class="product-badge">Checking</div>
+                        </div>
+                        <div class="balance-information">
+                            <div class="main-balance">
+                                <span class="amount-label">Available Balance</span>
+                                <span class="monetary-value">$52,580.20</span>
+                            </div>
+                            <div class="additional-balance">
+                                <span class="current-amount">Current: $52,580.20</span>
+                            </div>
+                        </div>
+                        <div class="card-controls">
+                            <a href="transactions.html?account=premium_checking" class="control-button primary-btn">View Activity</a>
+                            <a href="statements.html?account=premium_checking" class="control-button secondary-btn">Statements</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Savings Products Section -->
+            <section class="product-category">
+                <h2 class="category-header">Savings</h2>
+                <div class="product-cards-grid">
+                    <div class="financial-card savings-product">
+                        <div class="card-top">
+                            <div class="product-details">
+                                <h3 class="product-title">High Yield Savings</h3>
+                                <p class="bank-account-id">Account ****2341</p>
+                            </div>
+                            <div class="product-badge savings-badge">Savings</div>
+                        </div>
+                        <div class="balance-information">
+                            <div class="main-balance">
+                                <span class="amount-label">Current Balance</span>
+                                <span class="monetary-value">$17,285.54</span>
+                            </div>
+                            <div class="additional-balance">
+                                <span class="yield-rate">2.35% APY</span>
+                            </div>
+                        </div>
+                        <div class="card-controls">
+                            <a href="transactions.html?account=high_yield_savings" class="control-button primary-btn">View Activity</a>
+                            <a href="statements.html?account=high_yield_savings" class="control-button secondary-btn">Statements</a>
+                        </div>
+                    </div>
+
+                    <div class="financial-card savings-product">
+                        <div class="card-top">
+                            <div class="product-details">
+                                <h3 class="product-title">Emergency Fund</h3>
+                                <p class="bank-account-id">Account ****5678</p>
+                            </div>
+                            <div class="product-badge savings-badge">Savings</div>
+                        </div>
+                        <div class="balance-information">
+                            <div class="main-balance">
+                                <span class="amount-label">Current Balance</span>
+                                <span class="monetary-value">$3,184.02</span>
+                            </div>
+                            <div class="additional-balance">
+                                <span class="yield-rate">1.85% APY</span>
+                            </div>
+                        </div>
+                        <div class="card-controls">
+                            <a href="transactions.html?account=emergency_fund" class="control-button primary-btn">View Activity</a>
+                            <a href="statements.html?account=emergency_fund" class="control-button secondary-btn">Statements</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Lending Products Section -->
+            <section class="product-category">
+                <h2 class="category-header">Loans</h2>
+                <div class="product-cards-grid">
+                    <div class="financial-card lending-product">
+                        <div class="card-top">
+                            <div class="product-details">
+                                <h3 class="product-title">Auto Loan</h3>
+                                <p class="bank-account-id">Loan ****9012</p>
+                            </div>
+                            <div class="product-badge loan-badge">Auto Loan</div>
+                        </div>
+                        <div class="balance-information">
+                            <div class="main-balance">
+                                <span class="amount-label">Remaining Balance</span>
+                                <span class="monetary-value debt-amount">$18,567.43</span>
+                            </div>
+                            <div class="additional-balance">
+                                <span class="due-info">Next Payment: $425.67 due Jul 15, 2024</span>
+                            </div>
+                        </div>
+                        <div class="card-controls">
+                            <a href="transactions.html?account=auto_loan" class="control-button primary-btn">View Activity</a>
+                            <a href="statements.html?account=auto_loan" class="control-button secondary-btn">Statements</a>
+                        </div>
+                    </div>
+
+                    <div class="financial-card lending-product">
+                        <div class="card-top">
+                            <div class="product-details">
+                                <h3 class="product-title">Home Mortgage</h3>
+                                <p class="bank-account-id">Loan ****3456</p>
+                            </div>
+                            <div class="product-badge loan-badge">Mortgage</div>
+                        </div>
+                        <div class="balance-information">
+                            <div class="main-balance">
+                                <span class="amount-label">Remaining Balance</span>
+                                <span class="monetary-value debt-amount">$245,890.12</span>
+                            </div>
+                            <div class="additional-balance">
+                                <span class="due-info">Next Payment: $1,856.23 due Aug 1, 2024</span>
+                            </div>
+                        </div>
+                        <div class="card-controls">
+                            <a href="transactions.html?account=home_mortgage" class="control-button primary-btn">View Activity</a>
+                            <a href="statements.html?account=home_mortgage" class="control-button secondary-btn">Statements</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Portfolio Summary Panel -->
+        <div class="portfolio-summary-panel">
+            <h3>Account Summary</h3>
+            <div class="summary-metrics">
+                <div class="metric-item">
+                    <span class="metric-description">Total Deposits</span>
+                    <span class="metric-figure positive-amount">$73,049.76</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-description">Total Loan Balance</span>
+                    <span class="metric-figure negative-amount">$264,457.55</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-description">Net Position</span>
+                    <span class="metric-figure negative-amount">-$191,407.79</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Premium Bank Account Summary V2 loaded');
+        });
+    </script>
+</body>
+</html>
